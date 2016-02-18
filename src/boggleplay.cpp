@@ -58,7 +58,7 @@ Boggle initializeBoggle(Lexicon& dictionary){
                 }
             }
             if(isBad) {
-                cout << "That is not a valid 16-letter board string. Try again.";
+                cout << "That is not a valid 16-letter board string. Try again." << endl;
             }
         }
         Boggle newBoggle(dictionary, input);
@@ -77,15 +77,18 @@ Boggle initializeBoggle(Lexicon& dictionary){
 void humanMove(string guess, Boggle& boggle){
     while(guess != ""){
         BoggleGUI::clearHighlighting();
-        clearConsole();
         guess = toUpperCase(guess);
         if(boggle.checkWord(guess)) {
             if(boggle.humanWordSearch(guess)){
+                clearConsole();
                 BoggleGUI::recordWord(guess, BoggleGUI::HUMAN);
+                printHumanWordsAndScore(boggle, guess, 1);
+            } else {
+                clearConsole();
+                printHumanWordsAndScore(boggle, guess, 2);
             }
-            printHumanWordsAndScore(boggle, guess, 1);
         } else {
-            printHumanWordsAndScore(boggle, guess, 2) ;
+            printHumanWordsAndScore(boggle, guess, 3) ;
         }
         guess = getLine("Type a word(or Enter to stop):");
     }
@@ -105,7 +108,10 @@ void printHumanWordsAndScore(Boggle& boggle, string guess, int state) {
     } else if (state == 1) {
         cout << "You found a new word! \"" << guess << "\"" << endl;
         BoggleGUI::setStatusMessage("You found a new word! \"" + guess + "\"");
-    } else { // if state == 2
+    } else if (state == 2) {
+        cout << "That word can't be formed on this board." << endl;
+        BoggleGUI::setStatusMessage("That word can't be formed on this board.");
+    } else { // if state == 3
         cout << "You must enter an unfound 4+ letter word from the dictionary." << endl;
         BoggleGUI::setStatusMessage("You must enter an unfound 4+ letter word from the dictionary.");
     }
@@ -148,6 +154,11 @@ void printComputerWordsAndScore(Boggle& boggle, Set<string>& computerWords) {
     }
     BoggleGUI::setScore(boggle.getScoreComputer(), BoggleGUI::COMPUTER);
 
-    if(compScore > humanScore) cout << "Ha ha ha, I destroyed you. Better luck next time, puny human!" << endl << endl;
-    else cout << "WOW, you defeated me! Congratulations!" << endl << endl;
+    if(compScore > humanScore) {
+        cout << "Ha ha ha, I destroyed you. Better luck next time, puny human!" << endl << endl;
+        BoggleGUI::setStatusMessage("Ha ha ha, I destroyed you. Better luck next time, puny human!");
+    } else {
+        cout << "WOW, you defeated me! Congratulations!" << endl << endl;
+        BoggleGUI::setStatusMessage("WOW, you defeated me! Congratulations!");
+    }
 }

@@ -147,9 +147,10 @@ bool recursiveSearch(int row, int col, string word, Grid<string>& board, Grid<bo
     if(word == "") {
         return true;
     }
+    BoggleGUI::setHighlighted(row, col, true);
+
     if(board[row][col] == charToString(word[0])){
         usedBlocks[row][col] = true;
-        BoggleGUI::setHighlighted(row, col, true);
         BoggleGUI::setAnimationDelay(100);
 
         for(int i = -1; i <= 1; i++){
