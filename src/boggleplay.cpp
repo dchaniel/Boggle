@@ -15,7 +15,7 @@
 #include "bogglegui.h"
 
 void humanMove(string guess, Boggle &boggle);
-void printHumanWordsAndScore(Boggle &boggle, int state);
+void printHumanWordsAndScore(Boggle &boggle, string guess, int state);
 void computerMove(Boggle &boggle);
 void printComputerWordsAndScore(Boggle &boggle, Set<string> &computerWords);
 Boggle initializeBoggle(Lexicon &dictionary);
@@ -32,7 +32,8 @@ void playOneGame(Lexicon& dictionary) {
 
     BoggleGUI::labelAllCubes(boggle.getBoardText());
 
-    string guess = getLine("Type a word (or Enter to stop):");
+    printHumanWordsAndScore(boggle, "", 0);
+    string guess = getLine("Type a word(or Enter to stop):");
     humanMove(guess, boggle);
     computerMove(boggle);
     
@@ -82,25 +83,34 @@ void humanMove(string guess, Boggle& boggle){
             if(boggle.humanWordSearch(guess)){
                 BoggleGUI::recordWord(guess, BoggleGUI::HUMAN);
             }
+            printHumanWordsAndScore(boggle, guess, 1);
+        } else {
+            printHumanWordsAndScore(boggle, guess, 2) ;
         }
-        printHumanWordsAndScore(boggle);
-        guess = getLine("Type a word (or Enter to stop):");
+        guess = getLine("Type a word(or Enter to stop):");
     }
 }
 
 /*
  * Print Human Words and Scores
  *
- * Prints to console the current words and
+ * Prints to console the current word and
  * score of the human player
  */
-void printHumanWordsAndScore(Boggle& boggle, int state) {
+void printHumanWordsAndScore(Boggle& boggle, string guess, int state) {
+    clearConsole();
     if (state == 0) {
-
+        cout << "It's your turn!" << endl;
+    } else if (state == 1) {
+        cout << "You found a new word! \"" << guess << "\"" << endl;
+    } else { // if state == 2
+        cout << "You must enter an unfound 4+ letter word from the dictionary." << endl;
+    }
     cout << boggle;
     cout << endl;
     cout << "Your words (" << boggle.getNumUsedWords() << "): " << boggle.getUsedWords() << endl;
     cout << "Your score: " << boggle.getScoreHuman() << endl;
+
     BoggleGUI::setScore(boggle.getScoreHuman(), BoggleGUI::HUMAN);
 }
 
