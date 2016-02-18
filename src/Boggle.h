@@ -1,8 +1,12 @@
-// This is a .h file you will edit and turn in.
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+/*****************************************
+ * Boggle.h
+ *
+ * Names: Claire Shu & Daniel Chan
+ * Section Leader: Marco Ximenes Rego Monteiro
+ *
+ * Header file for Boggle class 
+ * 
+ *****************************************/
 
 #ifndef _boggle_h
 #define _boggle_h
@@ -12,7 +16,6 @@
 #include "lexicon.h"
 #include "grid.h"
 using namespace std;
-
 
 class Boggle {
 public:
@@ -28,14 +31,9 @@ public:
     int getNumComputerWords();
     string getBoardText();
 
-
-
-
-    // TODO: add any other member functions/variables necessary
     friend ostream& operator<<(ostream& out, Boggle& boggle);
 
 private:
-     // TODO: add any other member functions/variables necessary
     string boardText;
     Grid<string> board;
     Set<string> usedWords;
@@ -43,8 +41,6 @@ private:
     int humanScore;
     int computerScore;
     int resultsSize;
-
-
 };
 
 #endif // _boggle_h
