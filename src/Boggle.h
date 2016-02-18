@@ -1,4 +1,3 @@
-// Claire Shu & Daniel Chan
 // This is a .h file you will edit and turn in.
 // We have provided a skeleton for you,
 // but you must finish it as described in the spec.
@@ -11,7 +10,9 @@
 #include <iostream>
 #include <string>
 #include "lexicon.h"
+#include "grid.h"
 using namespace std;
+
 
 class Boggle {
 public:
@@ -22,12 +23,28 @@ public:
     Set<string> computerWordSearch();
     int getScoreHuman();
     int getScoreComputer();
+    Set<string> getUsedWords();
+    int getNumUsedWords();
+    int getNumComputerWords();
+    string getBoardText();
+
+
+
 
     // TODO: add any other member functions/variables necessary
     friend ostream& operator<<(ostream& out, Boggle& boggle);
 
 private:
-    // TODO: add any other member functions/variables necessary
+     // TODO: add any other member functions/variables necessary
+    string boardText;
+    Grid<string> board;
+    Set<string> usedWords;
+    Lexicon dictionary;
+    int humanScore;
+    int computerScore;
+    int resultsSize;
+
+
 };
 
 #endif // _boggle_h
