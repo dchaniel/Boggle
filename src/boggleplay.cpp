@@ -20,9 +20,10 @@ void printComputerWordsAndScore(Boggle &boggle, Set<string> &computerWords);
 void playOneGame(Lexicon& dictionary) {
     // TODO: implement
     int DIMENSIONS = 4;
+    BoggleGUI::initialize(DIMENSIONS, DIMENSIONS);
+
     if (getYesOrNo("Do you want to generate a random board?")){
         Boggle newBoggle(dictionary, "");
-        BoggleGUI::initialize(DIMENSIONS, DIMENSIONS);
         BoggleGUI::labelAllCubes(newBoggle.getBoardText());
 
         cout << newBoggle;
@@ -49,7 +50,6 @@ void playOneGame(Lexicon& dictionary) {
             }
         }
         Boggle newBoggle(dictionary, input);
-        BoggleGUI::initialize(DIMENSIONS, DIMENSIONS);
         BoggleGUI::labelAllCubes(newBoggle.getBoardText());
 
         cout << newBoggle;
@@ -93,13 +93,18 @@ void computerMove(Boggle& boggle) {
 }
 
 void printComputerWordsAndScore(Boggle& boggle, Set<string>& computerWords) {
+    int compScore = boggle.getScoreComputer();
+    int humanScore = boggle.getScoreHuman();
+
     cout << endl << "It's my turn!" << endl;
     cout << "My words (" << boggle.getNumComputerWords() << "): " << computerWords << endl;
-    cout << "My score: " << boggle.getScoreComputer() << endl;
+    cout << "My score: " << compScore  << endl;
     for (string str : computerWords) {
         BoggleGUI::recordWord(str, BoggleGUI::COMPUTER);
     }
     BoggleGUI::setScore(boggle.getScoreComputer(), BoggleGUI::COMPUTER);
 
     // win lose cases
+    if(compScore > humanScore) cout << "Ha ha ha, I destroyed you. Better luck next time, puny human!" << endl << endl;
+    else cout << "WOW, you defeated me! Congratulations!" << endl << endl;
 }

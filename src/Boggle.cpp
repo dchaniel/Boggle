@@ -70,8 +70,8 @@ Boggle::Boggle(Lexicon& dictionary, string boardTextIn) {
  * Randomly generates the board by shuffling the cubes
  */
 void randGenBoard(Grid<string>& board, string &boardText){
-    shuffle(CUBES, DISMENSIONS * DIMENSIONS);
-    for (int i = 0; i < (DISMENSIONS * DIMENSIONS); i++) {
+    shuffle(CUBES, DIMENSIONS * DIMENSIONS);
+    for (int i = 0; i < (DIMENSIONS * DIMENSIONS); i++) {
         string currCube = shuffle(CUBES[i]);
         board[i/4][i%4] = currCube[0];
         boardText += currCube[0];
@@ -96,10 +96,6 @@ char Boggle::getLetter(int row, int col) {
  */
 bool Boggle::checkWord(string word) {
     word = toLowerCase(word);
-<<<<<<< HEAD
-    cout << usedWords << endl;
-=======
->>>>>>> ec29384e784b3306e83042e4a806d7e905b210af
     if (!dictionary.contains(word)) return false;
     word = toUpperCase(word);
 
@@ -139,7 +135,6 @@ bool Boggle::humanWordSearch(string word) {
  */
 bool recursiveSearch(int row, int col, string word, Grid<string>& board, Grid<bool>& usedBlocks){
     if(!board.inBounds(row, col)) return false;
-    BoggleGUI::setAnimationDelay(100);
     if(word == "") {
         return true;
     }
@@ -147,6 +142,8 @@ bool recursiveSearch(int row, int col, string word, Grid<string>& board, Grid<bo
         usedBlocks[row][col] = true;
         cout << "first character matches" << endl;
         BoggleGUI::setHighlighted(row, col, true);
+        BoggleGUI::setAnimationDelay(100);
+
         for(int i = -1; i <= 1; i++){
             for(int j = -1; j <= 1; j++){
                 if(!(i == 0 && j == 0)){
