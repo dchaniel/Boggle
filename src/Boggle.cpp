@@ -20,6 +20,7 @@ void randGenBoard(Grid<string>& board, string &boardText);
 bool recursiveSearch(int row, int col, string word, Grid<string>& board, Grid<bool> &usedBlocks);
 void updateScore(int length, int humanScore);
 void recursiveComputer(int row, int col, string word, Grid<string>& board, Lexicon& dictionary, Set<string>& results, Grid<bool>& chosenCubes, int& computerScore, Set<string>& usedWords);
+void loadBoard(string boardText, Grid<string> board);
 
 // letters on all 6 sides of every cube
 static string CUBES[16] = {
@@ -47,21 +48,29 @@ const int DIMENSIONS = 4;
 Boggle::Boggle(Lexicon& dictionary, string boardTextIn) {
     this->dictionary = dictionary;
 
+    //Initialize Variables
     humanScore = 0;
     computerScore = 0;
     usedWords = {};
     board.resize(DIMENSIONS, DIMENSIONS);
     boardText = boardTextIn;
-
+    
     if (boardText == "") {
         randGenBoard(board, boardText);
     } else {
-        // Loads the board with input if user chooses non-random board
-        for (size_t i = 0; i < boardText.length(); i++) {
+        loadBoard(boardText, board);
+    }
+}
+/*
+ * Load (non random) board
+ *
+ * Fills board from given 16 character string
+ */
+void loadBoard(string boardText, Grid<string> board){
+ for (size_t i = 0; i < boardText.length(); i++) {
             string str = charToString(boardText[i]);
             board[i/4][i%4] = toUpperCase(str);
         }
-    }
 }
 
 /*
@@ -110,6 +119,7 @@ bool Boggle::checkWord(string word) {
  *
  * Returns a boolean based on whether the word input
  * by the human player is found on the Boggle board
+ * Wrapper for Recursive Search
  */
 bool Boggle::humanWordSearch(string word) {
     for(int i = 0; i < DIMENSIONS; i++){
@@ -127,7 +137,7 @@ bool Boggle::humanWordSearch(string word) {
 }
 
 /*
- * Recursive Search
+ * Recursive Search (Human Word Search)
  *
  * Recursively searches the Boggle board to find if
  * the word can be found the board and returns
