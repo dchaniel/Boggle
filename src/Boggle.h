@@ -1,3 +1,4 @@
+// Claire Shu & Daniel Chan
 // This is a .h file you will edit and turn in.
 // We have provided a skeleton for you,
 // but you must finish it as described in the spec.
