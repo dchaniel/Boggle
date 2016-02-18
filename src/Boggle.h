@@ -13,7 +13,6 @@
 #include "grid.h"
 using namespace std;
 
-
 class Boggle {
 public:
     Boggle(Lexicon& dictionary, string boardText = "");
@@ -28,14 +27,9 @@ public:
     int getNumComputerWords();
     string getBoardText();
 
-
-
-
-    // TODO: add any other member functions/variables necessary
     friend ostream& operator<<(ostream& out, Boggle& boggle);
 
 private:
-     // TODO: add any other member functions/variables necessary
     string boardText;
     Grid<string> board;
     Set<string> usedWords;
@@ -43,8 +37,6 @@ private:
     int humanScore;
     int computerScore;
     int resultsSize;
-
-
 };
 
 #endif // _boggle_h
