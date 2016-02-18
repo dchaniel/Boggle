@@ -1,8 +1,12 @@
-// This is a .h file you will edit and turn in.
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header
+/*****************************************
+ * Boggle.h
+ *
+ * Names: Claire Shu & Daniel Chan
+ * Section Leader: Marco Ximenes Rego Monteiro
+ *
+ * Header file for Boggle class 
+ * 
+ *****************************************/
 
 #ifndef _boggle_h
 #define _boggle_h
