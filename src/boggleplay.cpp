@@ -27,15 +27,18 @@ void printComputerWordsAndScore(Boggle &boggle, Set<string> &computerWords);
 void playOneGame(Lexicon& dictionary) {
     int DIMENSIONS = 4;
     BoggleGUI::initialize(DIMENSIONS, DIMENSIONS);
+    Boggle boggle = initializeBoggle()
+    
+    BoggleGUI::labelAllCubes(newBoggle.getBoardText());
 
+    string guess = getLine("Type a word (or Enter to stop):");
+    humanMove(guess, newBoggle);
+    computerMove(newBoggle);
+    
+}
+Boggle initializeBoggle(){
     if (getYesOrNo("Do you want to generate a random board?")){
-        Boggle newBoggle(dictionary, "");
-        BoggleGUI::labelAllCubes(newBoggle.getBoardText());
-
-        cout << newBoggle;
-        string guess = getLine("Type a word (or Enter to stop):");
-        humanMove(guess, newBoggle);
-        computerMove(newBoggle);
+        return Boggle newBoggle(dictionary, "");
     } else {
         string input;
         bool isBad = true;
@@ -55,15 +58,8 @@ void playOneGame(Lexicon& dictionary) {
                 cout << "That is not a valid 16-letter board string. Try again.";
             }
         }
-        Boggle newBoggle(dictionary, input);
-        BoggleGUI::labelAllCubes(newBoggle.getBoardText());
+        return Boggle newBoggle(dictionary, input);
 
-        cout << newBoggle;
-
-        string guess = getLine("Type a word (or Enter to stop):");
-        humanMove(guess, newBoggle);
-        computerMove(newBoggle);
-    }
 }
 
 /* 
