@@ -4,7 +4,7 @@
  * Names: Claire Shu & Daniel Chan
  * Section Leader: Marco Ximenes Rego Monteiro
  *
- * Handles playing one game of Boggle. 
+ * Handles playing one game of Boggle.
  *
  *****************************************/
 
@@ -18,22 +18,29 @@ void humanMove(string guess, Boggle &boggle);
 void printHumanWordsAndScore(Boggle &boggle, int state);
 void computerMove(Boggle &boggle);
 void printComputerWordsAndScore(Boggle &boggle, Set<string> &computerWords);
+Boggle initializeBoggle(Lexicon &dictionary);
 
 /* 
- * Play One Game 
- * 
- * Handles gameplay for one round of Boggle 
+ * Play One Game
+ *
+ * Handles gameplay for one round of Boggle
  */
 void playOneGame(Lexicon& dictionary) {
     int DIMENSIONS = 4;
     BoggleGUI::initialize(DIMENSIONS, DIMENSIONS);
+    Boggle boggle = initializeBoggle(dictionary);
 
+    BoggleGUI::labelAllCubes(boggle.getBoardText());
+
+    string guess = getLine("Type a word (or Enter to stop):");
+    humanMove(guess, boggle);
+    computerMove(boggle);
+    
+}
+Boggle initializeBoggle(Lexicon& dictionary){
     if (getYesOrNo("Do you want to generate a random board?")){
         Boggle newBoggle(dictionary, "");
-        BoggleGUI::labelAllCubes(newBoggle.getBoardText());
-
-        humanMove(guess, newBoggle);
-        computerMove(newBoggle);
+        return newBoggle;
     } else {
         string input;
         bool isBad = true;
@@ -54,24 +61,17 @@ void playOneGame(Lexicon& dictionary) {
             }
         }
         Boggle newBoggle(dictionary, input);
-        BoggleGUI::labelAllCubes(newBoggle.getBoardText());
-
-        cout << newBoggle;
-
-        string guess = getLine("Type a word (or Enter to stop):");
-        humanMove(guess, newBoggle);
-        computerMove(newBoggle);
+        return newBoggle;
     }
 }
 
-
-/* 
+/*
  * Human Move
  *
  * Manages the human player's move, including
- * GUI display, checking if the word input is valid, 
+ * GUI display, checking if the word input is valid,
  * and searching to see if the word input can be found
- * on the Boggle board. 
+ * on the Boggle board.
  */
 void humanMove(string guess, Boggle& boggle){
     while(guess != ""){
@@ -79,7 +79,7 @@ void humanMove(string guess, Boggle& boggle){
         clearConsole();
         guess = toUpperCase(guess);
         if(boggle.checkWord(guess)) {
-            if(boggle.humanWordSearch(guess)){ 
+            if(boggle.humanWordSearch(guess)){
                 BoggleGUI::recordWord(guess, BoggleGUI::HUMAN);
             }
         }
@@ -88,14 +88,15 @@ void humanMove(string guess, Boggle& boggle){
     }
 }
 
-/* 
+/*
  * Print Human Words and Scores
  *
- * Prints to console the current words and 
- * score of the human player 
+ * Prints to console the current words and
+ * score of the human player
  */
 void printHumanWordsAndScore(Boggle& boggle, int state) {
-    cout << "It's your turn!" << endl;
+    if (state == 0) {
+
     cout << boggle;
     cout << endl;
     cout << "Your words (" << boggle.getNumUsedWords() << "): " << boggle.getUsedWords() << endl;
@@ -103,24 +104,24 @@ void printHumanWordsAndScore(Boggle& boggle, int state) {
     BoggleGUI::setScore(boggle.getScoreHuman(), BoggleGUI::HUMAN);
 }
 
-/* 
- * Computer Move 
+/*
+ * Computer Move
  *
  * Runs the computer word search to find all words
  * on the Boggle board that were not found by the
  * human player. Prints to console the words found
- * by the computer and the score 
+ * by the computer and the score
  */
 void computerMove(Boggle& boggle) {
     Set<string> computerWords = boggle.computerWordSearch();
     printComputerWordsAndScore(boggle, computerWords);
 }
 
-/* 
- * Print Computer Words and Score 
+/*
+ * Print Computer Words and Score
  *
- * Prints to console the current words and 
- * score of the computer player 
+ * Prints to console the current words and
+ * score of the computer player
  */
 void printComputerWordsAndScore(Boggle& boggle, Set<string>& computerWords) {
     int compScore = boggle.getScoreComputer();
