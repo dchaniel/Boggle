@@ -54,7 +54,6 @@ void playOneGame(Lexicon& dictionary) {
 
         cout << newBoggle;
 
-
         string guess = getLine("Type a word (or Enter to stop):");
         humanMove(guess, newBoggle);
         computerMove(newBoggle);
@@ -64,10 +63,10 @@ void playOneGame(Lexicon& dictionary) {
 }
 
 void humanMove(string guess, Boggle& boggle){
-    guess = toUpperCase(guess);
     while(guess != ""){
         BoggleGUI::clearHighlighting();
         clearConsole();
+        guess = toUpperCase(guess);
         if(boggle.checkWord(guess)) {
             if(boggle.humanWordSearch(guess)){ // this will update the score and print to console too
                 BoggleGUI::recordWord(guess, BoggleGUI::HUMAN);

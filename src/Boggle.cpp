@@ -74,11 +74,14 @@ char Boggle::getLetter(int row, int col) {
 bool Boggle::checkWord(string word) {
     // TODO: implement
     word = toLowerCase(word);
-    //cout << usedWords << endl;
+    cout << usedWords << endl;
     if (!dictionary.contains(word)) return false;
-    else if (word.length() < 4) return false;
-    else if (usedWords.contains(word)) return false;
-    else return true ;
+    word = toUpperCase(word);
+
+    if (word.length() < 4) return false;
+    if (usedWords.contains(word)) return false;
+    cout << "Check word returns true" << endl;
+    return true ;
 }
 
 bool Boggle::humanWordSearch(string word) {
