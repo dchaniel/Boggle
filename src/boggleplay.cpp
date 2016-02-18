@@ -15,7 +15,7 @@
 #include "bogglegui.h"
 
 void humanMove(string guess, Boggle &boggle);
-void printHumanWordsAndScore(Boggle &boggle);
+void printHumanWordsAndScore(Boggle &boggle, int state);
 void computerMove(Boggle &boggle);
 void printComputerWordsAndScore(Boggle &boggle, Set<string> &computerWords);
 
@@ -32,8 +32,6 @@ void playOneGame(Lexicon& dictionary) {
         Boggle newBoggle(dictionary, "");
         BoggleGUI::labelAllCubes(newBoggle.getBoardText());
 
-        cout << newBoggle;
-        string guess = getLine("Type a word (or Enter to stop):");
         humanMove(guess, newBoggle);
         computerMove(newBoggle);
     } else {
@@ -66,6 +64,7 @@ void playOneGame(Lexicon& dictionary) {
     }
 }
 
+
 /* 
  * Human Move
  *
@@ -95,7 +94,7 @@ void humanMove(string guess, Boggle& boggle){
  * Prints to console the current words and 
  * score of the human player 
  */
-void printHumanWordsAndScore(Boggle& boggle) {
+void printHumanWordsAndScore(Boggle& boggle, int state) {
     cout << "It's your turn!" << endl;
     cout << boggle;
     cout << endl;
@@ -135,7 +134,6 @@ void printComputerWordsAndScore(Boggle& boggle, Set<string>& computerWords) {
     }
     BoggleGUI::setScore(boggle.getScoreComputer(), BoggleGUI::COMPUTER);
 
-    // win lose cases
     if(compScore > humanScore) cout << "Ha ha ha, I destroyed you. Better luck next time, puny human!" << endl << endl;
     else cout << "WOW, you defeated me! Congratulations!" << endl << endl;
 }
