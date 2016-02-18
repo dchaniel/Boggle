@@ -110,7 +110,6 @@ bool Boggle::checkWord(string word) {
 
     if (word.length() < 4) return false;
     if (usedWords.contains(word)) return false;
-    cout << "Check word returns true" << endl;
     return true ;
 }
 
@@ -150,7 +149,6 @@ bool recursiveSearch(int row, int col, string word, Grid<string>& board, Grid<bo
     }
     if(board[row][col] == charToString(word[0])){
         usedBlocks[row][col] = true;
-        cout << "first character matches" << endl;
         BoggleGUI::setHighlighted(row, col, true);
         BoggleGUI::setAnimationDelay(100);
 

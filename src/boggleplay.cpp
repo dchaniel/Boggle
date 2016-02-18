@@ -101,10 +101,13 @@ void printHumanWordsAndScore(Boggle& boggle, string guess, int state) {
     clearConsole();
     if (state == 0) {
         cout << "It's your turn!" << endl;
+        BoggleGUI::setStatusMessage("It's your turn!");
     } else if (state == 1) {
         cout << "You found a new word! \"" << guess << "\"" << endl;
+        BoggleGUI::setStatusMessage("You found a new word! \"" + guess + "\"");
     } else { // if state == 2
         cout << "You must enter an unfound 4+ letter word from the dictionary." << endl;
+        BoggleGUI::setStatusMessage("You must enter an unfound 4+ letter word from the dictionary.");
     }
     cout << boggle;
     cout << endl;
