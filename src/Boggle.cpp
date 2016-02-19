@@ -4,11 +4,11 @@
  * Names: Claire Shu & Daniel Chan
  * Section Leader: Marco Ximenes Rego Monteiro
  *
- * Handles the algorithmic methods in Boggle 
- * to perform major game functions. 
+ * Handles the algorithmic methods in Boggle
+ * to perform major game functions.
  *
  *****************************************/
- 
+
 
 #include "Boggle.h"
 #include "grid.h"
@@ -43,7 +43,7 @@ static string BIG_BOGGLE_CUBES[25] = {
 const int DIMENSIONS = 4;
 
 /*
- * Initializes the Boggle object 
+ * Initializes the Boggle object
  */
 Boggle::Boggle(Lexicon& dictionary, string boardTextIn) {
     this->dictionary = dictionary;
@@ -54,7 +54,7 @@ Boggle::Boggle(Lexicon& dictionary, string boardTextIn) {
     usedWords = {};
     board.resize(DIMENSIONS, DIMENSIONS);
     boardText = boardTextIn;
-    
+
     if (boardText == "") {
         randGenBoard(board, boardText);
     } else {
@@ -90,8 +90,8 @@ void randGenBoard(Grid<string>& board, string &boardText){
 /*
  * Get Letter
  *
- * Retruns the character in the Boggle board at the 
- * given row and col 
+ * Retruns the character in the Boggle board at the
+ * given row and col
  */
 char Boggle::getLetter(int row, int col) {
     return stringToChar(board[row][col]);   // remove this
@@ -101,7 +101,7 @@ char Boggle::getLetter(int row, int col) {
  * Check Word
  *
  * Checks the input word by the human player to
- * see if it is valid 
+ * see if it is valid
  */
 bool Boggle::checkWord(string word) {
     word = toLowerCase(word);
@@ -162,6 +162,9 @@ bool recursiveSearch(int row, int col, string word, Grid<string>& board, Grid<bo
                         }
                     }
                 }
+                if(usedBlocks.inBounds(row + i, col + j) && word.length() == 1 && board[row + i][col + j] == word) {
+                    return true;
+                }
             }
         }
     }
@@ -182,14 +185,14 @@ int Boggle::getScoreHuman() {
  * Get Number of Used Words
  *
  * Returns the number of words that the human
- * player has guessed correctly so far 
+ * player has guessed correctly so far
  */
 int Boggle::getNumUsedWords() {
     return usedWords.size();
 }
 
 /*
- * Get Used WOrds
+ * Get Used Words
  *
  * Returns the set of words that have already
  * been guessed correctly by the human player
@@ -204,10 +207,10 @@ Set<string> Boggle::getUsedWords() {
  * Searches the Boggle board for all the possible
  * words that can be made on the board and returns
  * them in a set. Excludes the words that have
- * already been found by the human player 
+ * already been found by the human player
  */
 Set<string> Boggle::computerWordSearch() {
-    Set<string> result;   
+    Set<string> result;
     for(int i = 0; i < DIMENSIONS; i++){
         for(int j = 0; j < DIMENSIONS; j++){
             Grid<bool> visitedCubes(DIMENSIONS, DIMENSIONS, false);
@@ -223,7 +226,7 @@ Set<string> Boggle::computerWordSearch() {
  *
  * Recursively searches the Boggle board to find all the
  * words that can be made on the board and haven't
- * been guessed correctly by the human player 
+ * been guessed correctly by the human player
  */
 void recursiveComputer(int row, int col, string word, Grid<string>& board, Lexicon& dictionary, Set<string>& results, Grid<bool>& visitedCubes, int& computerScore, Set<string>& usedWords){
     if(!board.inBounds(row, col)) return;
@@ -243,8 +246,12 @@ void recursiveComputer(int row, int col, string word, Grid<string>& board, Lexic
 
     for(int i = -1; i <= 1; i++){
         for(int j = -1; j <= 1; j++){
-            if(visitedCubes.inBounds(row+i, col+j) && !visitedCubes.get(row+i, col+j)){
+            if(visitedCubes.inBounds(row + i, col + j) && !visitedCubes[row + i][col + j]){
                 recursiveComputer(row + i, col + j, word, board, dictionary, results, visitedCubes, computerScore, usedWords);
+            }
+            if(visitedCubes.inBounds(row + i, col + j) && dictionary.contains(word) && !results.contains(word) && word.length() >=4) {
+                computerScore += word.length() - 3;
+                results.add(word);
             }
         }
     }
@@ -273,7 +280,7 @@ int Boggle::getNumComputerWords() {
 /*
  * ostream
  *
- * Handeles printing a Boggle object to the console 
+ * Handles printing a Boggle object to the console
  */
 ostream& operator<<(ostream& out, Boggle& boggle) {
     for (int i = 0; i < DIMENSIONS; i++) {
@@ -289,9 +296,8 @@ ostream& operator<<(ostream& out, Boggle& boggle) {
 /*
  * Get Board Text
  *
- * Returns the string of 16 letters that you put in 
+ * Returns the string of 16 letters that you put in
  */
 string Boggle::getBoardText(){
     return boardText;
 }
-
